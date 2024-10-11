@@ -6,6 +6,10 @@ export const create = catchAsync(async (req, res, next) => {
   if (!req.body.title || !req.body.content) {
     return next(errorHandler(400, "Please provide all required fields"));
   }
+  if(!req.user.isAdmin){
+    return console.error("You are not admin");
+     
+  }
   const slug = req.body.title
     .split(" ")
     .join("-")
@@ -70,7 +74,7 @@ export const getposts = catchAsync(async (req, res, next) => {
 
 
 export const deletePost = catchAsync(async (req, res, next) => {
-  if (req.user.isAdmin || req.user.id !== req.params.userId) {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
     console.log("error");
 
     return next(errorHandler(403, "You are not allowed to delete this post!"));

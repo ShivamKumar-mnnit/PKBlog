@@ -10,54 +10,68 @@ export default function CreatePost() {
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: '',
+    category: 'uncategorized', // Default category
+    content: '',
+    image: null,
+  });
   const [publishError, setPublishError] = useState(null);
   const navigate = useNavigate();
 
-  // Function to handle image upload to Cloudinary
-  const handleUploadImage = async () => {
-    try {
-      if (!file) {
-        setImageUploadError("Please select an image to upload");
-        return;
+  const handleUploadImage = () => {
+    if (!file) {
+      setImageUploadError("Please select an image to upload");
+      return;
+    }
+
+    const formDataToUpload = new FormData();
+    formDataToUpload.append("file", file);
+    formDataToUpload.append("upload_preset", "unsigned_preset"); // Replace with your Cloudinary upload preset
+
+    const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dihpvnfdx/image/upload"; // Replace with your Cloud Name
+
+    const xhr = new XMLHttpRequest();
+
+    xhr.open("POST", cloudinaryUrl, true);
+
+    // Track upload progress
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percentComplete = Math.round((event.loaded / event.total) * 100);
+        setImageUploadProgress(percentComplete);
       }
+    };
 
-      // Create form data to send to Cloudinary
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "unsigned_preset"); // Replace with your Cloudinary upload preset
-
-      // Cloudinary URL for uploading
-      const cloudinaryUrl =
-        "https://api.cloudinary.com/v1_1/dihpvnfdx/image/upload"; // Replace 'your-cloud-name'
-
-      // Send the request to Cloudinary
-      const response = await fetch(cloudinaryUrl, {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      // Check if the upload was successful
-      if (response.ok) {
-        setFormData({ ...formData, image: data.secure_url });
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        setFormData((prev) => ({ ...prev, image: data.secure_url })); // Update formData with the image URL
         setImageUploadProgress(null);
         setImageUploadError(null);
       } else {
         setImageUploadError("Image upload failed");
         setImageUploadProgress(null);
       }
-    } catch (error) {
+    };
+
+    xhr.onerror = () => {
       setImageUploadError("Image upload failed");
       setImageUploadProgress(null);
-      console.error(error);
-    }
+    };
+
+    xhr.send(formDataToUpload);
   };
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validation: Check if title and content are provided
+    if (!formData.title || !formData.content) {
+      setPublishError("Please fill in the title and content.");
+      return;
+    }
+
     try {
       const res = await fetch("/api/post/create", {
         method: "POST",
@@ -66,13 +80,23 @@ export default function CreatePost() {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
       if (!res.ok) {
-        setPublishError(data.message);
+        setPublishError(data.message || "An error occurred while publishing the post.");
         return;
       }
+
       if (res.ok) {
         setPublishError(null);
+        // Clear the form data after successful submission
+        setFormData({
+          title: '',
+          category: 'uncategorized',
+          content: '',
+          image: null,
+        });
+        setFile(null);
         navigate(`/post/${data.slug}`);
       }
     } catch (error) {
@@ -91,14 +115,11 @@ export default function CreatePost() {
             required
             id="title"
             className="flex-1"
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           />
           <Select
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+            value={formData.category}
           >
             <option value="uncategorized">Select a category</option>
             <option value="Photography">Photography</option>
@@ -137,7 +158,7 @@ export default function CreatePost() {
         {formData.image && (
           <img
             src={formData.image}
-            alt="upload"
+            alt="uploaded"
             className="w-full h-72 object-cover"
           />
         )}
@@ -146,6 +167,7 @@ export default function CreatePost() {
           placeholder="Write something..."
           className="h-72 mb-12"
           required
+          value={formData.content}
           onChange={(value) => setFormData({ ...formData, content: value })}
         />
         <Button type="submit" gradientDuoTone="purpleToPink" size="lg">

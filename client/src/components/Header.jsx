@@ -40,6 +40,7 @@ export default function Header() {
       console.log(error.message);
     }
   };
+  console.log(currentUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,9 +121,12 @@ export default function Header() {
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
+        {
+          currentUser && currentUser.isAdmin &&
         <Navbar.Link active={path === "/write"} as={"div"}>
           <Link to="/create-post">Write</Link>
         </Navbar.Link>
+}
       </Navbar.Collapse>
     </Navbar>
   );

@@ -51,6 +51,8 @@ export const DashPosts = () => {
     }
   };
 
+  console.log(postIdToDelete);
+  console.log(currentUser._id);
   const handleDeletePost = async () => {
     setShowModal(false);
     try {

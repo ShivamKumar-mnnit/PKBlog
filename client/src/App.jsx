@@ -24,15 +24,15 @@ export default function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
-        {/* <Route element={<PrivateRoute />}> */}
           <Route path="/" element={<Home />} />
+        <Route element={<PrivateRoute />}>
           <Route path="/search" element={<Search />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
           <Route path="/post/:postSlug" element={<PostPage />} />
 
-        {/* </Route> */}
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
