@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
 import React, { useEffect, useState } from "react";
 import { signOutSuccess } from "../redux/user/userSlice";
+import logo from '../images/logo.webp';
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -15,12 +16,11 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
-  // console.log(searchTerm);
   
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
-    if(searchTermFromUrl) {
+    if (searchTermFromUrl) {
       setSearchTerm(searchTermFromUrl);
     }
   }, [location.search]);
@@ -40,7 +40,6 @@ export default function Header() {
       console.log(error.message);
     }
   };
-  console.log(currentUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,11 +47,11 @@ export default function Header() {
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
-  }
+  };
 
   const navigateSearchbar = () => {
     navigate(`/search`);
-  }
+  };
 
   return (
     <Navbar className="border-b-2">
@@ -60,10 +59,13 @@ export default function Header() {
         to={"/"}
         className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
       >
-        {/* <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white"> */}
-          PK Photography
-        {/* </span> */}
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-24 h-12 object-contain" // Adjust logo size here
+        />
       </Link>
+
       <form onSubmit={handleSubmit}>
         <TextInput
           type="text"
@@ -96,7 +98,6 @@ export default function Header() {
           >
             <Dropdown.Header>
               <span className="block text-sm">{currentUser.username}</span>
-
               <span className="block text-sm font-medium truncate">
                 {currentUser.email}
               </span>
@@ -121,12 +122,11 @@ export default function Header() {
         <Navbar.Link active={path === "/"} as={"div"}>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        {
-          currentUser && currentUser.isAdmin &&
-        <Navbar.Link active={path === "/write"} as={"div"}>
-          <Link to="/create-post">Write</Link>
-        </Navbar.Link>
-}
+        {currentUser && currentUser.isAdmin && (
+          <Navbar.Link active={path === "/write"} as={"div"}>
+            <Link to="/create-post">Write</Link>
+          </Navbar.Link>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );

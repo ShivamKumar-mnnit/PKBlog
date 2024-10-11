@@ -59,6 +59,48 @@ export default function DashSidebar1() {
               PK Photography
             </Sidebar.Item>
           </Link>
+          <Link to="https://pkphotography.in">
+            <Sidebar.Item
+              active={tab === "profile"}
+              as="div"
+            >
+              Gallery
+            </Sidebar.Item>
+          </Link>
+          <Link to="https://pkphotography.in">
+            <Sidebar.Item
+              active={tab === "profile"}
+              as="div"
+            >
+              Services
+            </Sidebar.Item>
+          </Link>
+          <Link to="https://pkphotography.in">
+            <Sidebar.Item
+              active={tab === "profile"}
+              as="div"
+            >
+              About Us
+            </Sidebar.Item>
+          </Link>
+          <Link to="https://pkphotography.in">
+            <Sidebar.Item
+              active={tab === "profile"}
+              as="div"
+            >
+              Contact us
+            </Sidebar.Item>
+          </Link>
+          <Link to="https://pkphotography.in">
+            <Sidebar.Item
+              active={tab === "profile"}
+              as="div"
+            >
+              Careers
+            </Sidebar.Item>
+          </Link>
+
+
 
           {/* <Link to="/dashboard?tab=profile">
             <Sidebar.Item

@@ -7,6 +7,7 @@ import {
   BsGithub,
   BsDribbble,
 } from "react-icons/bs";
+import logo from '../images/logo.webp';
 
 export default function FooterCom() {
   return (
@@ -19,7 +20,7 @@ export default function FooterCom() {
               className="self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white"
             >
               <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-              PK Photography
+                PK Photography
               </span>
             </Link>
           </div>
@@ -28,44 +29,85 @@ export default function FooterCom() {
             <div>
               <Footer.Title title="About" />
               <Footer.LinkGroup col>
-                <Footer.Link
-                  href="https://github.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  GitHub
-                </Footer.Link>
-                <Footer.Link
-                  href="#"
-                >
-                  PK Photography
+                {/* Phone Label and Number */}
+                <div>
+                  <span className="font-bold">Phone:</span> <span className="font-normal">+91 8888766 739</span>
+                </div>
+                <div>
+                  <span className="font-bold">Email:</span> <span className="font-normal">prabhakar@photography.com</span>
+                </div>
+
+                <Footer.Link href="#">
+                  <img
+                    src={logo}
+                    alt="Logo"
+                    className="w-24 h-12 object-contain" // Adjust logo size here
+                  />
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
+
             <div>
-              <Footer.Title title="Follow Me" />
-              <Footer.LinkGroup col>
+              <Footer.Title title="Services" />
+              <Footer.LinkGroup col className="space-y-1">
                 <Footer.Link
-                  href="https://www.linkedin.com/in/"
+                  href="https://pkphotography.in/corporate-headshots/"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="font-semibold" // Apply boldness to service links
                 >
-                  LinkedIn
+                  HeadShots
                 </Footer.Link>
                 <Footer.Link
-                  href="https://twitter.com/"
+                  href="https://pkphotography.in/portrait-gallery/"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="font-semibold"
                 >
-                  Twitter
+                  Portrait
+                </Footer.Link>
+                <Footer.Link
+                  href="https://pkphotography.in/gallery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold"
+                >
+                  Wedding & Events
+                </Footer.Link>
+                <Footer.Link
+                  href="https://pkphotography.in/portfolio-gallery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold"
+                >
+                  Portfolio
+                </Footer.Link>
+                <Footer.Link
+                  href="https://pkphotography.in/interior-design/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold"
+                >
+                  Interior
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
+
             <div>
               <Footer.Title title="Legal" />
-              <Footer.LinkGroup col>
-                <Footer.Link href="#">Privacy Policy</Footer.Link>
-                <Footer.Link href="#">Terms &amp; Conditions</Footer.Link>
+              <Footer.LinkGroup col className="space-y-1">
+                <Footer.Link
+                  href="https://pkphotography.in/book-session/"
+                  className="font-semibold" // Apply boldness to legal links
+                >
+                  Bookings
+                </Footer.Link>
+                <Footer.Link
+                  href="https://pkphotography.in/privacy-policy/"
+                  className="font-semibold"
+                >
+                  Privacy Policy
+                </Footer.Link>
               </Footer.LinkGroup>
             </div>
           </div>
@@ -75,7 +117,7 @@ export default function FooterCom() {
           <Footer.Copyright
             href="#"
             by="PK Photography"
-            year={new Date().getFullYear}
+            year={new Date().getFullYear()}
           />
           <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
             <Footer.Icon href="#" icon={BsFacebook} />

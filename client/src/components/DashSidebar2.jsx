@@ -1,5 +1,7 @@
 import { Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
+import PostCard from "./PostCard2";
+import { Link } from "react-router-dom";
 
 // Dummy data for ads and news
 const ads = [
@@ -24,6 +26,17 @@ export default function DashSidebar2() {
     return () => clearInterval(adInterval);
   }, []);
 
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await fetch('/api/post/getPosts');
+      const data = await res.json();
+      setPosts(data.posts);
+    };
+    fetchPosts();
+  }, []);
+
   return (
     <Sidebar className="w-full md:w-72 bg-gray-100 p-4 rounded-lg">
       <Sidebar.Items>
@@ -31,7 +44,7 @@ export default function DashSidebar2() {
 
           {/* Ads Section */}
           <div className="mb-6">
-            <h2 className="text-lg font-bold mb-2">Sponsored Ads</h2>
+            <h2 className="text-lg font-bold mb-2">Offers</h2>
             <div className="bg-white p-3 rounded-lg shadow-lg">
               <a href={ads[adIndex].link} target="_blank" rel="noopener noreferrer">
                 <img
@@ -41,6 +54,26 @@ export default function DashSidebar2() {
                 />
               </a>
             </div>
+          </div>
+
+          <div className='max-w-6xl mx-auto p-3 py-7'>
+            {posts && posts.length > 0 && (
+              <div className='flex flex-col gap-6 items-center'>
+                <h2 className='text-2xl font-semibold text-center'>Recent Posts</h2>
+                <div className='max-w-6xl mx-auto p-3 py-7 flex flex-col gap-8'>
+                  {/* Show only 3 recent posts */}
+                  {posts.slice(0, 3).map((post) => (
+                    <PostCard key={post._id} post={post} />
+                  ))}
+                </div>
+                <Link
+                  to={'/search'}
+                  className='text-lg text-teal-500 hover:underline text-center'
+                >
+                  View all posts
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* News Section */}
