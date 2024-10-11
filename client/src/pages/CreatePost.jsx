@@ -2,65 +2,62 @@ import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {
-  getStorage,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
-  const [file, setFile] = useState([null]);
+  const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
-const [publishError, setPublishError] = useState(null);
+  const [publishError, setPublishError] = useState(null);
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
-
-  const handleUploadImage = () => {
+  // Function to handle image upload to Cloudinary
+  const handleUploadImage = async () => {
     try {
       if (!file) {
         setImageUploadError("Please select an image to upload");
         return;
       }
-      setImageUploadError(null);
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + "-" + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError("Image upload failed");
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
-          });
-        }
-      );
+
+      // Create form data to send to Cloudinary
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "unsigned_preset"); // Replace with your Cloudinary upload preset
+
+      // Cloudinary URL for uploading
+      const cloudinaryUrl =
+        "https://api.cloudinary.com/v1_1/dihpvnfdx/image/upload"; // Replace 'your-cloud-name'
+
+      // Send the request to Cloudinary
+      const response = await fetch(cloudinaryUrl, {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      // Check if the upload was successful
+      if (response.ok) {
+        setFormData({ ...formData, image: data.secure_url });
+        setImageUploadProgress(null);
+        setImageUploadError(null);
+      } else {
+        setImageUploadError("Image upload failed");
+        setImageUploadProgress(null);
+      }
     } catch (error) {
       setImageUploadError("Image upload failed");
       setImageUploadProgress(null);
-      console.log(error);
+      console.error(error);
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const res = await fetch("/api/post/create", {
         method: "POST",
@@ -72,16 +69,16 @@ const navigate = useNavigate();
       const data = await res.json();
       if (!res.ok) {
         setPublishError(data.message);
-        return
-      } 
+        return;
+      }
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`)
+        navigate(`/post/${data.slug}`);
       }
     } catch (error) {
       setPublishError("Something went wrong");
     }
-  }
+  };
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
@@ -98,9 +95,11 @@ const navigate = useNavigate();
               setFormData({ ...formData, title: e.target.value })
             }
           />
-          <Select onChange={(e) => 
-            setFormData({ ...formData, category: e.target.value })
-          }>
+          <Select
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
             <option value="uncategorized">Select a category</option>
             <option value="Photography">Photography</option>
             <option value="Videography">Videography</option>
@@ -152,7 +151,11 @@ const navigate = useNavigate();
         <Button type="submit" gradientDuoTone="purpleToPink" size="lg">
           Publish
         </Button>
-        {publishError && <Alert className="mt-5" color="failure">{publishError}</Alert>}
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );
