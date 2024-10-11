@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareAlt } from '@fortawesome/free-solid-svg-icons'; 
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'; 
+import { faWhatsapp, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Correct import here
 
 // Utility function to strip HTML tags
 function stripHtml(html) {
@@ -22,32 +24,27 @@ export default function PostCard({ post }) {
   const currentArticleUrl = encodeURIComponent(window.location.origin + `/post/${post.slug}`);
   const encodedMessage = encodeURIComponent(customMessage ? `${customMessage} ` : '');
 
-  // Share options with URLs
+  // Share options with URLs and icons
   const shareOptions = [
     {
       name: "WhatsApp",
       url: `https://wa.me/?text=${encodedMessage}${currentArticleUrl}`,
-      icon: "fab fa-whatsapp",
+      icon: faWhatsapp,
     },
     {
       name: "Facebook",
       url: `https://www.facebook.com/sharer/sharer.php?u=${currentArticleUrl}`,
-      icon: "fab fa-facebook-f",
+      icon: faFacebookF,
     },
     {
       name: "X (Twitter)",
       url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`,
-      icon: "fab fa-twitter",
-    },
-    {
-      name: "Reddit",
-      url: `https://www.reddit.com/submit?url=${currentArticleUrl}&title=${encodedMessage}`,
-      icon: "fab fa-reddit",
+      icon: faTwitter,
     },
     {
       name: "Email",
       url: `mailto:?subject=Check%20out%20this%20article&body=${encodedMessage}${currentArticleUrl}`,
-      icon: "fas fa-envelope",
+      icon: faEnvelope, // Correct icon reference
     },
   ];
 
@@ -55,8 +52,6 @@ export default function PostCard({ post }) {
     setIsShareModalOpen(!isShareModalOpen);
   };
 
-
-  console.log(post);
   return (
     <div className='group relative w-full h-auto overflow-hidden rounded-lg transition-all'>
       <div className='p-6'>
@@ -83,11 +78,10 @@ export default function PostCard({ post }) {
           {/* Comment and Share Icons */}
           <div className='ml-auto flex items-center space-x-4'>
             <div className='ml-auto flex items-center space-x-1'>
-            <FontAwesomeIcon
-              icon={faCommentAlt}
-              className='cursor-pointer'
-            />
-            <><CommentCount postId={post._id} /></>
+              <Link to={`/post/${post.slug}#comments`}>
+                <FontAwesomeIcon icon={faCommentAlt} className='cursor-pointer' />
+              </Link>
+              <CommentCount postId={post._id} />
             </div>
             <FontAwesomeIcon
               icon={faShareAlt}
@@ -99,35 +93,35 @@ export default function PostCard({ post }) {
 
         {/* Share Modal */}
         {isShareModalOpen && (
-          <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50'>
-            <div className='bg-white rounded-lg p-6 shadow-lg'>
-              <h3 className='text-lg font-semibold'>Share this Article</h3>
-              <input
-                type="text"
-                placeholder="Add a custom message..."
-                value={customMessage}
-                onChange={(e) => setCustomMessage(e.target.value)}
-                className='mt-2 p-2 border rounded w-full'
-              />
-              <div className='share-options mt-2'>
-                {shareOptions.map((option, index) => (
-                  <a
-                    key={index}
-                    href={option.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className='inline-flex items-center p-2 mr-2 border rounded hover:bg-gray-100'
-                    aria-label={`Share on ${option.name}`}
-                  >
-                    <i className={option.icon}  />
-                    {option.name}
-                  </a>
-                ))}
-              </div>
-              <button onClick={toggleShareModal} className='mt-2 p-2 text-red-500'>Close</button>
-            </div>
-          </div>
-        )}
+  <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50'>
+    <div className='bg-white rounded-lg p-6 shadow-lg min-w-[400px] max-w-[600px]'> {/* Adjusted styling */}
+      <h3 className='text-lg font-semibold'>Share this Article</h3>
+      <input
+        type="text"
+        placeholder="Add a custom message..."
+        value={customMessage}
+        onChange={(e) => setCustomMessage(e.target.value)}
+        className='mt-2 p-2 border rounded w-full'
+      />
+      <div className='share-options mt-4 flex justify-between'> {/* Changed to justify-between */}
+        {shareOptions.map((option, index) => (
+          <a
+            key={index}
+            href={option.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className='flex-1 inline-flex items-center justify-center p-2 border rounded hover:bg-gray-100 mx-1' // Added flex-1 for equal width and spacing
+            aria-label={`Share on ${option.name}`}
+          >
+            <FontAwesomeIcon icon={option.icon} className="mr-1" />
+          </a>
+        ))}
+      </div>
+      <button onClick={toggleShareModal} className='mt-4 p-2 text-red-500'>Close</button>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );

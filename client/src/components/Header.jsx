@@ -88,14 +88,22 @@ export default function Header() {
         >
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
+        {currentUser && (
+    <span className="font-bold text-blue-600">
+      {currentUser.username}
+    </span>
+  )}
         {currentUser ? (
+          
           <Dropdown
             arrowIcon={false}
             inline
             label={
               <Avatar alt="user" img={currentUser.profilePicture} rounded />
+              
             }
           >
+            
             <Dropdown.Header>
               <span className="block text-sm">{currentUser.username}</span>
               <span className="block text-sm font-medium truncate">

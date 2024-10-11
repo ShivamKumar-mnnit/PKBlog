@@ -61,7 +61,7 @@ export default function Home() {
       </div>
 
       {/* Right sidebar for ads/news */}
-      <div className="md:w-96">
+      <div className="md:w-72">
         <DashSidebar2 />
       </div>
     </div>

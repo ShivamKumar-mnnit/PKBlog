@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Sidebar } from "flowbite-react";
-import { useEffect, useState } from "react";
-import PostCard from "./PostCard2";
 import { Link } from "react-router-dom";
+import PostCard2 from './PostCard2';
 
 // Dummy data for ads and news
 const ads = [
@@ -56,6 +56,7 @@ export default function DashSidebar2() {
             </div>
           </div>
 
+          {/* Recent Posts Section */}
           <div className='max-w-6xl mx-auto p-3 py-7'>
             {posts && posts.length > 0 && (
               <div className='flex flex-col gap-6 items-center'>
@@ -63,7 +64,7 @@ export default function DashSidebar2() {
                 <div className='max-w-6xl mx-auto p-3 py-7 flex flex-col gap-8'>
                   {/* Show only 3 recent posts */}
                   {posts.slice(0, 3).map((post) => (
-                    <PostCard key={post._id} post={post} />
+                    <PostCard2 key={post._id} post={post} />
                   ))}
                 </div>
                 <Link
