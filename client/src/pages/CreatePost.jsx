@@ -1,12 +1,25 @@
 import { Alert, Button, FileInput, Select, TextInput } from "flowbite-react";
-import { useState } from "react";
+import React, { useState, useRef, useMemo } from 'react';
+import JoditEditor from 'jodit-react';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { useNavigate } from "react-router-dom";
 
-export default function CreatePost() {
+export default function CreatePost({ placeholder }) {
+
+  const editor = useRef(null);
+	const [content, setContent] = useState('');
+
+	const config = useMemo(
+		() => ({
+			readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+			placeholder: placeholder || 'Start typings...'
+		}),
+		[placeholder]
+	);
+  
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
@@ -162,14 +175,25 @@ export default function CreatePost() {
             className="w-full h-72 object-cover"
           />
         )}
-        <ReactQuill
+
+<JoditEditor
+			ref={editor}
+			value={formData.content}
+			config={config}
+			tabIndex={1} 
+			onBlur={(newContent) => setContent(newContent)} 
+			onChange={(value) => setFormData({ ...formData, content: value })}
+		/>
+
+
+        {/* <ReactQuill
           theme="snow"
           placeholder="Write something..."
           className="h-72 mb-12"
           required
           value={formData.content}
           onChange={(value) => setFormData({ ...formData, content: value })}
-        />
+        /> */}
         <Button type="submit" gradientDuoTone="purpleToPink" size="lg">
           Publish
         </Button>

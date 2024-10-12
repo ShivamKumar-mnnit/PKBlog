@@ -16,7 +16,7 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get("searchTerm");
@@ -79,7 +79,7 @@ export default function Header() {
       <Button className="w-12 h-10 lg:hidden" color="gray" pill onClick={() => navigateSearchbar()}>
         <AiOutlineSearch />
       </Button>
-      <div className="flex gap-2 md:order-2">
+      <div className="flex items-center gap-x-4 md:order-2"> {/* Updated spacing here */}
         <Button
           className="w-12 h-10 sm:inline"
           color="gray"
@@ -89,21 +89,22 @@ export default function Header() {
           {theme === "light" ? <FaSun /> : <FaMoon />}
         </Button>
         {currentUser && (
-    <span className="font-bold text-blue-600">
-      {currentUser.username}
-    </span>
-  )}
+          <span className="font-bold text-blue-600 text-lg italic font-mono text-center">
+            {currentUser.username}
+          </span>
+        )}
         {currentUser ? (
-          
           <Dropdown
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={currentUser.profilePicture} rounded />
-              
+              <Avatar
+                alt="user"
+                img={currentUser.profilePicture}
+                className="rounded-lg w-10 h-10" // Square with rounded corners
+              />
             }
           >
-            
             <Dropdown.Header>
               <span className="block text-sm">{currentUser.username}</span>
               <span className="block text-sm font-medium truncate">
