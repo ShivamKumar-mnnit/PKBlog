@@ -6,6 +6,9 @@ import { faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'; 
 import { faWhatsapp, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Correct import here
+import { faTimes } from '@fortawesome/free-solid-svg-icons'; // Import the close icon
+
+
 
 // Utility function to strip HTML tags
 function stripHtml(html) {
@@ -37,10 +40,10 @@ export default function PostCard({ post }) {
       icon: faFacebookF,
     },
     {
-      name: "X (Twitter)",
-      url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`,
-      icon: faTwitter,
-    },
+      name: "X",
+    url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`, // Twitter URL structure is still used
+    icon: "https://w7.pngwing.com/pngs/748/680/png-transparent-twitter-x-logo.png", // Replace with the URL of the X icon
+  },
     {
       name: "Email",
       url: `mailto:?subject=Check%20out%20this%20article&body=${encodedMessage}${currentArticleUrl}`,
@@ -92,9 +95,11 @@ export default function PostCard({ post }) {
         </div>
 
         {/* Share Modal */}
-        {isShareModalOpen && (
+       {/* Share Modal */}
+{/* Share Modal */}
+{isShareModalOpen && (
   <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50'>
-    <div className='bg-white rounded-lg p-6 shadow-lg min-w-[400px] max-w-[600px]'> {/* Adjusted styling */}
+    <div className='bg-white rounded-lg p-6 shadow-lg min-w-[400px] max-w-[600px] relative'> {/* Add relative positioning here */}
       <h3 className='text-lg font-semibold'>Share this Article</h3>
       <input
         type="text"
@@ -103,24 +108,36 @@ export default function PostCard({ post }) {
         onChange={(e) => setCustomMessage(e.target.value)}
         className='mt-2 p-2 border rounded w-full'
       />
-      <div className='share-options mt-4 flex justify-between'> {/* Changed to justify-between */}
+      <div className='share-options mt-4 flex justify-between'>
         {shareOptions.map((option, index) => (
           <a
             key={index}
             href={option.url}
             target="_blank"
             rel="noopener noreferrer"
-            className='flex-1 inline-flex items-center justify-center p-2 border rounded hover:bg-gray-100 mx-1' // Added flex-1 for equal width and spacing
+            className='flex-1 inline-flex items-center justify-center p-2 border rounded hover:bg-gray-100 mx-1'
             aria-label={`Share on ${option.name}`}
           >
-            <FontAwesomeIcon icon={option.icon} className="mr-1" />
+            {typeof option.icon === "string" ? (
+              <img src={option.icon} alt={`${option.name} logo`} className="w-5 h-5 mr-1" />
+            ) : (
+              <FontAwesomeIcon icon={option.icon} className="mr-1" />
+            )}
           </a>
         ))}
       </div>
-      <button onClick={toggleShareModal} className='mt-4 p-2 text-red-500'>Close</button>
+
+      {/* Close button with red close icon, positioned in top-right corner */}
+      <button
+        onClick={toggleShareModal}
+        className='absolute top-2 right-2 p-2'
+      >
+        <FontAwesomeIcon icon={faTimes} className='text-red-500 w-5 h-5' />
+      </button>
     </div>
   </div>
 )}
+
 
       </div>
     </div>

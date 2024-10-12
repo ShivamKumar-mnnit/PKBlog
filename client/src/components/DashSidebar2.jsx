@@ -5,8 +5,10 @@ import PostCard2 from './PostCard2';
 
 // Dummy data for ads and news
 const ads = [
-  { id: 1, image: 'ad1.jpg', link: 'https://example.com/ad1' },
-  { id: 2, image: 'ad2.jpg', link: 'https://example.com/ad2' },
+  { id: 1, image: 'https://thumbs.dreamstime.com/b/advertising-word-cloud-business-concept-56936998.jpg', link: 'https://thumbs.dreamstime.com/b/advertising-word-cloud-business-concept-56936998.jpg' },
+  { id: 2, image:'https://adphotography.in/wp-content/uploads/2021/03/couple_635_2.jpg', link: 'https://adphotography.in/wp-content/uploads/2021/03/couple_635_2.jpg' },
+  { id: 3, image:'https://visualeducation.com/wp-content/uploads/2017/12/web-Job_10215flatA.jpg', link: 'https://visualeducation.com/wp-content/uploads/2017/12/web-Job_10215flatA.jpg' },
+  { id: 4, image:'https://i.ytimg.com/vi/qx5Q3brn4RA/maxresdefault.jpg', link: 'https://i.ytimg.com/vi/qx5Q3brn4RA/maxresdefault.jpg' },
 ];
 
 const news = [
@@ -17,11 +19,11 @@ const news = [
 export default function DashSidebar2() {
   const [adIndex, setAdIndex] = useState(0);
 
-  // Rotating ads every 5 seconds
+  // Rotating ads every 4 seconds
   useEffect(() => {
     const adInterval = setInterval(() => {
       setAdIndex((prevIndex) => (prevIndex + 1) % ads.length);
-    }, 5000);
+    }, 4000);
 
     return () => clearInterval(adInterval);
   }, []);
