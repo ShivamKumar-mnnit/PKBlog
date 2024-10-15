@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import CommentCount from "./CommentCount";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareAlt } from '@fortawesome/free-solid-svg-icons'; 
+import { faShareAlt, faTimes } from '@fortawesome/free-solid-svg-icons'; 
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'; 
 import { faWhatsapp, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; // Correct import here
-import { faTimes } from '@fortawesome/free-solid-svg-icons'; // Import the close icon
-
-
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; 
 
 // Utility function to strip HTML tags
 function stripHtml(html) {
@@ -30,6 +27,11 @@ export default function PostCard({ post }) {
   // Share options with URLs and icons
   const shareOptions = [
     {
+      name: "Copy Link",
+      url: '#',
+      icon: null, // No icon for this option
+    },
+    {
       name: "WhatsApp",
       url: `https://wa.me/?text=${encodedMessage}${currentArticleUrl}`,
       icon: faWhatsapp,
@@ -40,19 +42,25 @@ export default function PostCard({ post }) {
       icon: faFacebookF,
     },
     {
-      name: "X",
-    url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`, // Twitter URL structure is still used
-    icon: "https://w7.pngwing.com/pngs/748/680/png-transparent-twitter-x-logo.png", // Replace with the URL of the X icon
-  },
+      name: "Twitter",
+      url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`,
+      icon: "https://w7.pngwing.com/pngs/748/680/png-transparent-twitter-x-logo.png",
+    },
     {
       name: "Email",
       url: `mailto:?subject=Check%20out%20this%20article&body=${encodedMessage}${currentArticleUrl}`,
-      icon: faEnvelope, // Correct icon reference
+      icon: faEnvelope,
     },
   ];
 
   const toggleShareModal = () => {
     setIsShareModalOpen(!isShareModalOpen);
+  };
+
+  // Function to copy link to clipboard
+  const copyLinkToClipboard = () => {
+    navigator.clipboard.writeText(window.location.origin + `/post/${post.slug}`);
+    alert("Link copied to clipboard!"); // Feedback for the user
   };
 
   return (
@@ -65,7 +73,7 @@ export default function PostCard({ post }) {
           <img
             src={post.image}
             alt='post cover'
-            className='h-[300px] w-full object-cover transition-all duration-300'
+            className='h-[300px] w-full object-contain transition-all duration-300'
           />
         </Link>
         <p className='text-gray-700 mt-4 line-clamp-3'>{cleanDesc}</p>
@@ -95,50 +103,46 @@ export default function PostCard({ post }) {
         </div>
 
         {/* Share Modal */}
-       {/* Share Modal */}
-{/* Share Modal */}
-{isShareModalOpen && (
-  <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50'>
-    <div className='bg-white rounded-lg p-6 shadow-lg min-w-[400px] max-w-[600px] relative'> {/* Add relative positioning here */}
-      <h3 className='text-lg font-semibold'>Share this Article</h3>
-      <input
-        type="text"
-        placeholder="Add a custom message..."
-        value={customMessage}
-        onChange={(e) => setCustomMessage(e.target.value)}
-        className='mt-2 p-2 border rounded w-full'
-      />
-      <div className='share-options mt-4 flex justify-between'>
-        {shareOptions.map((option, index) => (
-          <a
-            key={index}
-            href={option.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className='flex-1 inline-flex items-center justify-center p-2 border rounded hover:bg-gray-100 mx-1'
-            aria-label={`Share on ${option.name}`}
-          >
-            {typeof option.icon === "string" ? (
-              <img src={option.icon} alt={`${option.name} logo`} className="w-5 h-5 mr-1" />
-            ) : (
-              <FontAwesomeIcon icon={option.icon} className="mr-1" />
-            )}
-          </a>
-        ))}
-      </div>
+        {isShareModalOpen && (
+          <div className='fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50'>
+            <div className='bg-white rounded-lg p-6 shadow-lg min-w-[400px] max-w-[600px] relative'>
+              <h3 className='text-lg font-semibold'>Share this Article</h3>
+              <input
+                type="text"
+                placeholder="Add a custom message..."
+                value={customMessage}
+                onChange={(e) => setCustomMessage(e.target.value)}
+                className='mt-2 p-2 border rounded w-full'
+              />
+              <div className='share-options mt-4 flex mx-4 '>
+                {shareOptions.map((option, index) => (
+                  <a
+                    key={index}
+                    href={option.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={option.name === "Copy Link" ? (e) => { e.preventDefault(); copyLinkToClipboard(); } : null}
+                    className='flex items-center justify-between p-2 border rounded hover:bg-gray-100 my-1 mx-1'
+                    aria-label={`Share on ${option.name}`}
+                  >
+                    {option.icon && (
+                      <FontAwesomeIcon icon={option.icon} className="ml-2 mx-2" />
+                    )}
+                    {option.name}
+                  </a>
+                ))}
+              </div>
 
-      {/* Close button with red close icon, positioned in top-right corner */}
-      <button
-        onClick={toggleShareModal}
-        className='absolute top-2 right-2 p-2'
-      >
-        <FontAwesomeIcon icon={faTimes} className='text-red-500 w-5 h-5' />
-      </button>
-    </div>
-  </div>
-)}
-
-
+              {/* Close button */}
+              <button
+                onClick={toggleShareModal}
+                className='absolute top-2 right-2 p-2'
+              >
+                <FontAwesomeIcon icon={faTimes} className='text-red-500 w-5 h-5' />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

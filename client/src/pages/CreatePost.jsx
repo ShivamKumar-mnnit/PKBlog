@@ -172,7 +172,7 @@ export default function CreatePost({ placeholder }) {
           <img
             src={formData.image}
             alt="uploaded"
-            className="w-full h-72 object-cover"
+            className="w-full h-72 object-contain"
           />
         )}
 

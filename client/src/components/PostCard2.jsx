@@ -23,7 +23,7 @@ export default function PostCard2({ post }) {
       <div className='p-4'>
 
         {/* Post Title - Restricted to 2 lines */}
-        <p className='text-lg font-semibold mb-2 line-clamp-2'>
+        <p className='text-sm font-semibold mb-2 line-clamp-4'>
           {post.title}
         </p>
 
