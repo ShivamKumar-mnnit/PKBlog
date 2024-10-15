@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import CommentCount from "./CommentCount";
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShareAlt, faTimes } from '@fortawesome/free-solid-svg-icons'; 
+import { faShareAlt, faTimes, faClipboard } from '@fortawesome/free-solid-svg-icons'; 
 import { faCommentAlt } from '@fortawesome/free-regular-svg-icons'; 
-import { faWhatsapp, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp, faFacebookF } from '@fortawesome/free-brands-svg-icons';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; 
 
 // Utility function to strip HTML tags
@@ -15,21 +15,17 @@ function stripHtml(html) {
 
 export default function PostCard({ post }) {
   const cleanDesc = stripHtml(post.content);
-
-  // State for share dialog and custom message
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
 
-  // Construct the URL for sharing
   const currentArticleUrl = encodeURIComponent(window.location.origin + `/post/${post.slug}`);
   const encodedMessage = encodeURIComponent(customMessage ? `${customMessage} ` : '');
 
-  // Share options with URLs and icons
   const shareOptions = [
     {
       name: "Copy Link",
       url: '#',
-      icon: null, // No icon for this option
+      icon: faClipboard, // Clipboard icon for Copy Link
     },
     {
       name: "WhatsApp",
@@ -42,9 +38,15 @@ export default function PostCard({ post }) {
       icon: faFacebookF,
     },
     {
-      name: "Twitter",
-      url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`,
-      icon: "https://w7.pngwing.com/pngs/748/680/png-transparent-twitter-x-logo.png",
+      name: "X", // Replacing Twitter with X
+      url: `https://twitter.com/intent/tweet?text=${encodedMessage}${currentArticleUrl}`, // This URL is still Twitter's share URL
+      icon: () => (
+        <img
+          src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/x-social-media-black-icon.png"
+          alt="X logo"
+          className="w-6 h-6" // Adjust the size of the X icon here
+        />
+      ),
     },
     {
       name: "Email",
@@ -57,10 +59,9 @@ export default function PostCard({ post }) {
     setIsShareModalOpen(!isShareModalOpen);
   };
 
-  // Function to copy link to clipboard
   const copyLinkToClipboard = () => {
     navigator.clipboard.writeText(window.location.origin + `/post/${post.slug}`);
-    alert("Link copied to clipboard!"); // Feedback for the user
+    alert("Link copied to clipboard!");
   };
 
   return (
@@ -68,7 +69,6 @@ export default function PostCard({ post }) {
       <div className='p-6'>
         <p className='text-2xl font-semibold mb-2'>{post.title}</p>
         <span className='italic text-sm text-gray-600'>{post.category}</span>
-
         <Link to={`/post/${post.slug}`}>
           <img
             src={post.image}
@@ -86,7 +86,6 @@ export default function PostCard({ post }) {
             Read article
           </Link>
 
-          {/* Comment and Share Icons */}
           <div className='ml-auto flex items-center space-x-4'>
             <div className='ml-auto flex items-center space-x-1'>
               <Link to={`/post/${post.slug}#comments`}>
@@ -122,13 +121,14 @@ export default function PostCard({ post }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={option.name === "Copy Link" ? (e) => { e.preventDefault(); copyLinkToClipboard(); } : null}
-                    className='flex items-center justify-between p-2 border rounded hover:bg-gray-100 my-1 mx-1'
+                    className='flex items-center justify-center p-2 border rounded hover:bg-gray-100 my-1 mx-1'
                     aria-label={`Share on ${option.name}`}
                   >
-                    {option.icon && (
+                    {option.icon && typeof option.icon === 'function' ? (
+                      option.icon() // Render the image for X logo
+                    ) : (
                       <FontAwesomeIcon icon={option.icon} className="ml-2 mx-2" />
                     )}
-                    {option.name}
                   </a>
                 ))}
               </div>
