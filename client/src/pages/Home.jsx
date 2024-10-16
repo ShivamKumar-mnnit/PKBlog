@@ -23,7 +23,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-    
+     <Helmet>
+        <title>PK Photography - Professional Wedding, Event & Portrait Photography Services</title>
+        <meta name="description" content="PK Photography offers high-quality professional photography services for weddings, portraits, events, and more. Capture your special moments with stunning visuals." />
+        <meta name="keywords" content="Photography, Wedding Photography, Portrait Photography, Event Photography, Professional Photography, PK Photography" />
+        <link rel="canonical" href="https://www.pkphotography.io" />
+        <meta property="og:title" content="PK Photography - Professional Wedding, Event & Portrait Photography Services" />
+        <meta property="og:description" content="Capturing life's best moments with PK Photography - Professional wedding, event, and portrait photography services. Book now for exceptional photos!" />
+        <meta property="og:image" content="./src/images/og-image.jpeg" />
+        <meta property="og:url" content="https://www.pkphotography.io" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="PK Photography - Professional Wedding, Event & Portrait Photography Services" />
+        <meta name="twitter:description" content="Capture your special moments with PK Photography. Weddings, portraits, and event photography services that are second to none." />
+        <meta name="twitter:image" content="./src/images/og-image.jpeg" />
+      </Helmet>
 
       {/* Hide the sidebar on small screens and display it on medium screens */}
       <div className="hidden md:w-56 md:block">
