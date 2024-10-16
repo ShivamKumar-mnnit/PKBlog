@@ -23,15 +23,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <Helmet>
-        <title>PK Photography - Latest Posts</title>
-        <meta name="description" content={metaDescription} />
-        {/* Add Open Graph tags if necessary */}
-        <meta property="og:title" content="PK Photography - Latest Posts" />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:url" content="https://www.pkphotography.io" />
-        <meta property="og:type" content="website" />
-      </Helmet>
+    
 
       {/* Hide the sidebar on small screens and display it on medium screens */}
       <div className="hidden md:w-56 md:block">

@@ -35,43 +35,38 @@
     <!-- Canonical URL to prevent duplicate content issues -->
     <link rel="canonical" href="https://www.pkphotography.io" />
 
-
-
-
-
-    <!-- Structured Data (JSON-LD) for better SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "PK Photography",
-      "url": "https://www.pkphotography.io",
-      "logo": "./src/images/logo.jpeg",
-      "sameAs": [
-        "https://www.facebook.com/pkphotography",
-        "https://www.instagram.com/pkphotography",
-        "https://www.twitter.com/pkphotography"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-555-555-5555",
-        "contactType": "Customer Service",
-        "areaServed": "US",
-        "availableLanguage": "English"
-      }
-    }
-    </script>
-
     <!-- Mobile-friendly and security-related headers -->
     <meta name="theme-color" content="#ffffff" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
     <!-- Preload important resources -->
     <link rel="preload" href="./src/main.jsx" as="script" />
-
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <h1>Welcome to PK Photography</h1>
+      <h2>Our Services</h2>
+      <p>We offer a range of photography services including:</p>
+      <ul>
+        <li>Wedding Photography</li>
+        <li>Event Photography</li>
+        <li>Portrait Photography</li>
+        <li>Corporate Headshots</li>
+      </ul>
+      
+      <h2>About Us</h2>
+      <p>PK Photography specializes in capturing special moments...</p>
+      
+      <h2>Gallery</h2>
+      <p>Check out our portfolio of stunning photographs.</p>
+      
+      <h2>Contact Us</h2>
+      <p>For inquiries, please reach out to us at:</p>
+      <address>
+        <p>Email: info@pkphotography.io</p>
+        <p>Phone: +91 8888766 739</p>
+      </address>
+    </div>
     
     <!-- Script to handle main React/JavaScript -->
     <script type="module" src="./src/main.jsx"></script>

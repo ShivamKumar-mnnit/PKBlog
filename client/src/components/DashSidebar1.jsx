@@ -51,54 +51,61 @@ export default function DashSidebar1() {
             <Sidebar.Item as="div">Gallery</Sidebar.Item>
           </Link>
 
-          {/* Services Dropdown with Updated Links */}
-          <Dropdown label="Services" arrowIcon={true}>
-            <Dropdown.Item>
-              <Link
-                to="https://pkphotography.in/corporate-headshots/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                HeadShots
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <Link
-                to="https://pkphotography.in/portrait-gallery/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Portrait
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <Link
-                to="https://pkphotography.in/gallery/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Wedding & Events
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <Link
-                to="https://pkphotography.in/portfolio-gallery/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Portfolio
-              </Link>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <Link
-                to="https://pkphotography.in/interior-design/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Interior
-              </Link>
-            </Dropdown.Item>
-          </Dropdown>
+          {/* Services Dropdown with Padding */}
+          <div className="flex flex-col pl-5"> {/* Add left padding here */}
+            <Dropdown label="Services" arrowIcon={true} inline={true} className="text-black">
+              <Dropdown.Item>
+                <Link
+                  to="https://pkphotography.in/corporate-headshots/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600"
+                >
+                  HeadShots
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  to="https://pkphotography.in/portrait-gallery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600"
+                >
+                  Portrait
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  to="https://pkphotography.in/gallery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600"
+                >
+                  Wedding & Events
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  to="https://pkphotography.in/portfolio-gallery/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600"
+                >
+                  Portfolio
+                </Link>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Link
+                  to="https://pkphotography.in/interior-design/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black hover:text-gray-600"
+                >
+                  Interior
+                </Link>
+              </Dropdown.Item>
+            </Dropdown>
+          </div>
 
           <Link to="https://pkphotography.in">
             <Sidebar.Item as="div">About Us</Sidebar.Item>
