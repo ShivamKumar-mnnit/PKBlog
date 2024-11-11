@@ -26,6 +26,8 @@ const __dirname = path.resolve();
 
 const app = express();
 app.use(cors());
+const port = 3000;
+
 
 
 app.use(express.json());
@@ -33,7 +35,6 @@ app.use(cookieParser());
 
 app.use(mongoSanitize());
 
-const port = process.env.PORT || 3000; // Default to 3000 if PORT is not defined
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
