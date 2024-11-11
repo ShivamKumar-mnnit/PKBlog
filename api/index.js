@@ -33,7 +33,7 @@ app.use(cookieParser());
 
 app.use(mongoSanitize());
 
-app.listen(8000, () => {
+app.listen(3000, () => {
   console.log("server is running on port 3000");
 });
 
