@@ -7,18 +7,17 @@ import {
   BsLinkedin,
 } from "react-icons/bs";
 import logo from '../images/logo.webp';
-import Social from "./Social";
+import Social from './Social';
 
 export default function FooterCom() {
   return (
     <>
-      {/* Social media strip above footer */}
       <Social />
-
       <footer className="bg-white py-10 border-t border-gray-200">
-        <div className="container mx-auto px-6 max-w-7xl">
+        <div className="container mx-auto px-6 max-w-7xl overflow-hidden">
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-8">
-            {/* Column 1: Logo and Tagline */}
+            
+            {/* Column 1: Logo, Tagline, and Contact Info */}
             <div className="col-span-2">
               <Link to="/">
                 <img
@@ -30,6 +29,20 @@ export default function FooterCom() {
               <p className="text-sm text-gray-700 font-semibold">
                 Capturing Life’s Moments with Passion and Precision
               </p>
+              {/* Contact Info */}
+              <div className="mt-4">
+                <h3 className="text-lg font-bold text-gray-800 mb-2">Contact</h3>
+                <ul className="text-sm space-y-2">
+                  <li>
+                    <span className="text-gray-800 font-semibold">Phone:</span>
+                    <span className="ml-2 text-gray-600">+91 8888766 739</span>
+                  </li>
+                  <li>
+                    <span className="text-gray-800 font-semibold">Email:</span>
+                    <span className="ml-2 text-gray-600">prabhakar@photography.com</span>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* Column 2: Services */}
@@ -133,20 +146,6 @@ export default function FooterCom() {
               </ul>
             </div>
 
-            {/* Column 5: Contact Info */}
-            <div>
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Contact</h3>
-              <ul className="text-sm space-y-2">
-                <li>
-                  <span className="text-gray-800 font-semibold">Phone:</span>
-                  <span className="ml-2 text-gray-600">+91 8888766 739</span>
-                </li>
-                <li>
-                  <span className="text-gray-800 font-semibold">Email:</span>
-                  <span className="ml-2 text-gray-600">prabhakar@photography.com</span>
-                </li>
-              </ul>
-            </div>
           </div>
 
           {/* Social Media Icons and Copyright */}

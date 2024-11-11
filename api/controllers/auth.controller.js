@@ -52,6 +52,7 @@ export const signin = catchAsync(async (req, res, next) => {
   //   return next(errorHandler(400, "Invalid credentials"));
   // }
   const token = signToken(validUser._id, validUser.isAdmin);
+  console.log(token);
 
   const { password: pass, ...userData } = validUser._doc;
 

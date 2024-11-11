@@ -10,8 +10,8 @@ import {
 
 export default function Social() {
   return (
-    <div className="bg-blue-500 py-4 overflow-auto">
-      <div className="max-w-7xl mx-auto flex justify-center gap-8">
+    <div className="bg-blue-500 py-4">
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-8 px-4">
         {/* Instagram */}
         <a
           href="https://www.instagram.com/itspkphotography.in/"
@@ -41,7 +41,7 @@ export default function Social() {
           rel="noopener noreferrer"
           className="text-white hover:text-gray-200 flex items-center gap-2 text-lg"
         >
-           <BsX className="text-2xl" />
+          <BsX className="text-2xl" />
           <span>Twitter</span>
         </a>
 
