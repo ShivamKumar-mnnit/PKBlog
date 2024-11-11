@@ -10,11 +10,10 @@ import path from "path";
 import mongoSanitize from "express-mongo-sanitize";
 import cors from 'cors';
 
-
 dotenv.config();
 
 mongoose
-  .connect("mongodb+srv://mickey:shopzohack36@shopzo.s0cahed.mongodb.net/demo")
+  .connect(process.env.MONGODB_URI) // Use environment variable for MongoDB URI
   .then(() => {
     console.log("MongoDB is connected");
   })
@@ -27,14 +26,14 @@ const __dirname = path.resolve();
 const app = express();
 app.use(cors());
 
-
 app.use(express.json());
 app.use(cookieParser());
-
 app.use(mongoSanitize());
 
-app.listen(3000, () => {
-  console.log("server is running on port 3000");
+// Use the dynamic port from the environment variable or default to 3000
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
 app.use("/api/user", userRoutes);
